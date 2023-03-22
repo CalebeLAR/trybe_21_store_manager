@@ -3,18 +3,18 @@ const camelize = require('camelize');
 const connection = require('./connection');
 
 const getAllProductsFromDatabase = async () => {
-  const [result] = await connection.execute(
+  const [allProducts] = await connection.execute(
     'SELECT * FROM StoreManager.products ORDER BY id ASC;',
   );
-  return camelize(result);
+  return camelize(allProducts);
 };
 
-const getProductByIdFromDatabase = async (passengerId) => {
-  const [[passenger]] = await connection.execute(
-    'SELECT * FROM passengers WHERE id = ?',
-    [passengerId],
+const getProductByIdFromDatabase = async (productId) => {
+  const [[product]] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE id = ?',
+    [productId],
   );
-  return camelize(passenger);
+  return camelize(product);
 };
   
   module.exports = {

@@ -16,4 +16,16 @@ describe('testes unitários para a camada model de produtos.', async function ()
     
     sinon.restore();
   });
+
+  it('testa o retorno da função getProductByIdFromDatabase em caso de sucesso.', async function () {
+    // Arrange
+    sinon.stub(connection, 'execute').resolves(mockProducts.allProducts);
+    // Act
+    const sucessResponse = productsModel.getProductByIdFromDatabase();
+    console.log(sucessResponse);
+    // Assert
+
+
+    sinon.restore();
+  });
 });
