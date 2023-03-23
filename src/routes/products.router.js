@@ -1,11 +1,12 @@
 const express = require('express');
+const { productsServise } = require('../services');
 const { procuctsModel } = require('../models');
 
 const productsRouter = express.Router();
 
 productsRouter.get('/products', async (req, res) => {
-  const allProducts = await procuctsModel.getAllProductsFromDatabase();
-  res.status(200).json(allProducts);
+  const response = await productsServise.requestAllProducts();
+  res.status(200).json(response.message);
 });
 
 productsRouter.get('/products/:id', async (req, res) => {
