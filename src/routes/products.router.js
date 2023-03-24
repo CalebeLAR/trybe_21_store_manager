@@ -11,7 +11,7 @@ productsRouter.get('/', async (req, res) => {
 productsRouter.get('/:id', async (req, res) => {
   const productId = Number(req.params.id);
   const response = await productsServise.requestProductById(productId);
-  if (response.type) return res.status(404).json(response.message);
+  if (response.type) return res.status(404).json({ message: response.message });
   res.status(200).json(response.message);
 });
 
