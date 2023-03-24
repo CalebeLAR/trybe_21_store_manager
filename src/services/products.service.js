@@ -10,7 +10,7 @@ const requestAllProducts = async () => {
 
 const requestProductById = async (productID) => {
   const error = await valideteProductId(productID);
-  if (error) return { type: 'INPUT_VALUE', message: error.message };
+  if (error) return { type: 'INVALID_VALUE', message: error.message };
 
   const product = await productsModel.getProductByIdFromDatabase(productID);
   if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
