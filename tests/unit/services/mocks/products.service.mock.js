@@ -13,6 +13,12 @@ const allProducts = [
   }
 ]
 
+const product = {
+  "id": 2,
+  "name": "Traje de encolhimento"
+}
+
 module.exports = {
   allProducts,
+  product
 }
