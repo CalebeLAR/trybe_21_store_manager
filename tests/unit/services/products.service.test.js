@@ -12,8 +12,8 @@ describe('testes unitários para a camada producs services.', async function () 
     sinon.restore();
   });
 
-  describe('retorna a lista completa de produtos', function () {
-    it('a função requestAllProducts deve retornar uma lista de produtos em caso de sucesso.', async function () {
+  describe('testes da função que lista todos os produtos', function () {
+    it('a função requestAllProducts deve retornar uma lista de com todos produtos em caso de sucesso.', async function () {
       // Arrange
       sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(mock.allProducts);
       // Act
@@ -34,9 +34,9 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.type).to.be.equal('INTERNAL_ERROR');
       expect(response.message).to.be.equal('error accessing database');
     });
-  })
+  });
 
-  describe('dado um ID retorna um produto em específico ', function () {
+  describe('testes da função que lista apenas um produto', function () {
     it('a função requestProductById deve retornar um produto em caso de sucesso.', async function () {
       // Arrange
       const validId = 3;
@@ -64,9 +64,7 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.message).to.be.equal("Product not found");
       expect(productsModel.getProductByIdFromDatabase.calledWith(invalidId)).to.be.equal(true);
     });
-  });
 
-  describe('caso o ID seja inválido a camada deve retornar um erro', function () {
     it('a função requestProductById deve retornar um erro caso o ID nao seja um numero inteiro maior ou igual a 1.', async function () {
       // Arrange
       const errorGreater = '"value" must be greater than or equal to 1'
@@ -101,3 +99,4 @@ describe('testes unitários para a camada producs services.', async function () 
     });
   });
 });
+
