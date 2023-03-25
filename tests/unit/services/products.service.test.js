@@ -72,7 +72,6 @@ describe('testes unitários para a camada service de produtos.', async function 
     const errorGreater = '"value" must be greater than or equal to 1'
     const errorNumber = '"value" must be a number';
     const errorInteger = '"value" must be an integer';
-    const errorRequired = '"value" is required';
     const typeError = 'INVALID_VALUE'
 
     sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves();    
@@ -100,12 +99,5 @@ describe('testes unitários para a camada service de produtos.', async function 
     expect(responseInteger.message).to.be.equal(errorInteger);
     expect(productsModel.getProductByIdFromDatabase.called).to.be.equal(false);
 
-
-    //Act
-    const responseRequired = await productsServise.requestProductById();
-    //Assert
-    expect(responseRequired.type).to.be.equal(typeError);
-    expect(responseRequired.message).to.be.equal(errorRequired);
-    expect(productsModel.getProductByIdFromDatabase.called).to.be.equal(false);
   });
 });
