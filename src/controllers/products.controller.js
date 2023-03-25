@@ -5,7 +5,6 @@ const listAllProducts = async (req, res) => {
   const { type, message } = await productsServise.requestAllProducts();
 
   if (type) return res.status(mapError(type)).json(message);
-
   return res.status(200).json(message);
 };
 

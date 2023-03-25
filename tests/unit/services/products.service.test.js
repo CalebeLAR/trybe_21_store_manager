@@ -6,12 +6,13 @@ const { productsModel }  = require('../../../src/models');
 const { productsServise } = require('../../../src/services');
 const productsValidations = require('../../../src/services/validations/productsValidations');
 
-describe('testes unitários para a camada service de produtos.', async function () {
+describe('testes unitários para a camada producs services.', async function () {
 
   afterEach(function () {
     sinon.restore();
   });
 
+  describe('')
   it('testa o retorno da função requestAllProducts em caso de sucesso.', async function () {
     // Arrange
     sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(mock.allProducts);
