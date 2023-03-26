@@ -1,5 +1,5 @@
 const { productsModel } = require('../models');
-const { valideteProductId } = require('./validations/productsValidations');
+const { valideteProductId, validateNewProduct } = require('./validations/productsValidations');
 
 const requestAllProducts = async () => {
   const allProducts = await productsModel.getAllProductsFromDatabase();
@@ -17,7 +17,19 @@ const requestProductById = async (productID) => {
   return { type: null, message: product };
 };
 
+const requestAddNewProduct = async (newProduct) => {
+  const error = await validateNewProduct(newProduct);
+  if (error) return { type: 'INVALID_VALUE', message: error.message };
+
+  const newProductID = await productsModel.insertNewProductInTheDatabase(newProduct);
+
+  const newProcustWithID = await productsModel.getProductByIdFromDatabase(newProductID);
+
+  return { type: null, message: newProcustWithID };
+};
+
 module.exports = {
   requestAllProducts,
   requestProductById,
+  requestAddNewProduct,
 };

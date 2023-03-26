@@ -1,4 +1,5 @@
 // funções que acessam o banco de dados.
+const snakeize = require('snakeize');
 const camelize = require('camelize');
 const connection = require('./connection');
 
@@ -16,8 +17,23 @@ const getProductByIdFromDatabase = async (productId) => {
   );
   return camelize(product);
 };
+
+const insertNewProductInTheDatabase = async (newProduct) => {
+  const columns = Object.keys(snakeize(newProduct)).join(', ');
+
+  const placeholders = Object.keys(newProduct)
+    .map((_key) => '?')
+    .join(', ');
+
+  const [{ insertId }] = await connection.execute(
+    `INSERT INTO StoreManager.products (${columns}) VALUE (${placeholders})`,
+    [...Object.values(newProduct)],
+  );
+  return insertId;
+};
   
   module.exports = {
     getAllProductsFromDatabase,
     getProductByIdFromDatabase,
+    insertNewProductInTheDatabase,
   };
