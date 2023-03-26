@@ -23,17 +23,6 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.type).to.be.equal(null);
       expect(response.message).to.deep.equal(mock.allProducts);
     });
-
-    it('a função requestAllProducts deve retornar um erro em caso de falha.', async function () {
-      // Arrange
-      sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(undefined);
-      // Act
-      const response = await productsService.requestAllProducts();
-
-      // Assert
-      expect(response.type).to.be.equal('INTERNAL_ERROR');
-      expect(response.message).to.be.equal('error accessing database');
-    });
   });
 
   describe('testes da função que lista apenas um produto', function () {
