@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const mock = require('./mocks/products.service.mock');
 const connection = require('../../../src/models/connection');
+
+const mock = require('./mocks/products.service.mock');
 const { productsModel } = require('../../../src/models');
-const { productsServise } = require('../../../src/services');
-const productsValidations = require('../../../src/services/validations/productsValidations');
+const { productsService } = require('../../../src/services');
 
 describe('testes unitários para a camada producs services.', async function () {
 
@@ -17,7 +17,7 @@ describe('testes unitários para a camada producs services.', async function () 
       // Arrange
       sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(mock.allProducts);
       // Act
-      const response = await productsServise.requestAllProducts();
+      const response = await productsService.requestAllProducts();
 
       // Assert
       expect(response.type).to.be.equal(null);
@@ -28,7 +28,7 @@ describe('testes unitários para a camada producs services.', async function () 
       // Arrange
       sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(undefined);
       // Act
-      const response = await productsServise.requestAllProducts();
+      const response = await productsService.requestAllProducts();
 
       // Assert
       expect(response.type).to.be.equal('INTERNAL_ERROR');
@@ -42,7 +42,7 @@ describe('testes unitários para a camada producs services.', async function () 
       const validId = 3;
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(mock.allProducts);
       // Act
-      const response = await productsServise.requestProductById(validId);
+      const response = await productsService.requestProductById(validId);
 
       // Assert
       expect(productsModel.getProductByIdFromDatabase.calledWith(3)).to.be.equal(true);
@@ -57,7 +57,7 @@ describe('testes unitários para a camada producs services.', async function () 
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(undefined);
 
       // Act
-      const response = await productsServise.requestProductById(invalidId);
+      const response = await productsService.requestProductById(invalidId);
 
       // Assert
       expect(response.type).to.be.equal('PRODUCT_NOT_FOUND');
@@ -75,7 +75,7 @@ describe('testes unitários para a camada producs services.', async function () 
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves();
 
       //Act
-      const responseGreater = await productsServise.requestProductById(0);
+      const responseGreater = await productsService.requestProductById(0);
       //Assert
       expect(responseGreater.type).to.be.equal(typeError);
       expect(responseGreater.message).to.be.equal(errorGreater);
@@ -83,7 +83,7 @@ describe('testes unitários para a camada producs services.', async function () 
 
 
       //Act
-      const responseNumber = await productsServise.requestProductById('g');
+      const responseNumber = await productsService.requestProductById('g');
       //Assert
       expect(responseNumber.type).to.be.equal(typeError);
       expect(responseNumber.message).to.be.equal(errorNumber);
@@ -91,7 +91,7 @@ describe('testes unitários para a camada producs services.', async function () 
 
 
       //Act
-      const responseInteger = await productsServise.requestProductById(0.9);
+      const responseInteger = await productsService.requestProductById(0.9);
       //Assert
       expect(responseInteger.type).to.be.equal(typeError);
       expect(responseInteger.message).to.be.equal(errorInteger);
