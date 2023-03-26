@@ -9,6 +9,15 @@ const allProducts = [
   ]
 ]
 
+const newProductResponse = {
+  "fieldCount": 0,
+  "affectedRows": 1,
+  "insertId": 5,
+  "info": "",
+  "serverStatus": 2,
+  "warningStatus": 0
+}
+
 module.exports = {
   allProducts,
 }
