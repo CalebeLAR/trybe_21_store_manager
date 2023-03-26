@@ -1,13 +1,14 @@
 const Joi = require('joi');
 
-const idShema = Joi.number().integer().min(1);
+// valida o ID do produto que vem por parâmetro
+const productIdShema = Joi.number().integer().min(1);
 
-// exemplo de objeto pra usar depois
-const reqBodyObject = Joi.object({
-  name: Joi.string().min(3).required(),
+// valida o campo nome do id que vem por requisição
+const newProductShema = Joi.object({
+  name: Joi.string().min(5).required(),
 });
 
 module.exports = {
-  idShema,
-  reqBodyObject,
+  productIdShema,
+  newProductShema,
 };

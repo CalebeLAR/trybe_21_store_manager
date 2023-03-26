@@ -1,11 +1,18 @@
-const { idShema } = require('./products.Shema');
+const { productIdShema, newProductShema } = require('./products.Shema');
 
-const valideteProductId = async (productID) => {
-  const { error } = idShema.validate(productID);
+const valideteProductId = (productID) => {
+  const { error } = productIdShema.validate(productID);
+
+  return error;
+};
+
+const validateNewProduct = (newProduct) => {
+  const { error } = newProductShema.validate(newProduct);
 
   return error;
 };
 
 module.exports = {
   valideteProductId,
+  validateNewProduct,
 };  
