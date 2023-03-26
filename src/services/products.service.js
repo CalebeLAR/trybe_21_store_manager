@@ -3,7 +3,6 @@ const { valideteProductId } = require('./validations/productsValidations');
 
 const requestAllProducts = async () => {
   const allProducts = await productsModel.getAllProductsFromDatabase();
-  if (!allProducts) return { type: 'INTERNAL_ERROR', message: 'error accessing database' };
 
   return { type: null, message: allProducts };
 };

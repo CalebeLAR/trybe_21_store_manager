@@ -28,7 +28,6 @@ describe('testes unitários para a camada producs controller.', function () {
       sinon.stub(productsService, 'requestAllProducts')
         .resolves({ type: null, message: mock.allProducts });
       
-
       // Act
       await productsController.listAllProducts(req, res);
 
@@ -84,25 +83,37 @@ describe('testes unitários para a camada producs controller.', function () {
     });
 
     it('em caso de falha por parametro inválido a função findProduct deve retornar uma mensagem de erro, e um status code 422.', async function () {
-      // Arrange
-      const productID = 1
-      const res = {};
-      const req = { params: { id: productID } };
-
-      const [product] = mock.allProducts;
-
+      // value is not a integer
+      let res = {};
+      let req = { params: { id: 0.9 } };
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns()
-
-      sinon.stub(productsService, 'requestProductById')
-        .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' })
-
-      // Act
       await productsController.findProduct(req, res);
+      expect(res.status).to.be.calledWith(422);
+      expect(res.json).to.be.calledWith({ message: '"value" must be an integer' })
 
-      // Asserts
-      expect(res.status).to.be.calledWith(404);
-      expect(res.json).to.be.calledWith({ message: 'Product not found' })
+      sinon.restore();
+
+
+      // value must be greater than or equal to 1
+      res = {};
+      req = { params: { id: 0 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns()
+      await productsController.findProduct(req, res);
+      expect(res.status).to.be.calledWith(422);
+      expect(res.json).to.be.calledWith({ message: '"value" must be greater than or equal to 1' })
+
+     // value
+      res = {};
+      req = { params: { id: 'string' } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns()
+      await productsController.findProduct(req, res);
+      expect(res.status).to.be.calledWith(422);
+      expect(res.json).to.be.calledWith({ message: '"value" must be a number' })
+
+
     });
   });
 });
