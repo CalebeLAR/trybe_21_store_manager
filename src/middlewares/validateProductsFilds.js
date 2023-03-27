@@ -1,11 +1,11 @@
-// const validateProductId = (req, res, next) => {
-//   const { id } = req.params;
+const validateProductName = (req, res, next) => {
+  const { name } = req.body;
 
-//   if (!id) return res.status(400).json({ message: 'field ID not Found' });
+  if (!name) return res.status(400).json({ message: '"name" is required' });
 
-//   return next();
-// };
+  return next();
+};
 
-// module.exports = {
-//   validateProductId,
-// };
+module.exports = {
+  validateProductName,
+};
