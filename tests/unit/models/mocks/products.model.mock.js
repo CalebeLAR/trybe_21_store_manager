@@ -1,4 +1,4 @@
-const allProducts = [
+const getAllProductsResponse = [
   [
     {"id": 1, "name": "Martelo de Thor" },
     { "id": 2, "name": "Traje de encolhimento" },
@@ -9,15 +9,22 @@ const allProducts = [
   ]
 ]
 
-const newProductResponse = {
-  "fieldCount": 0,
-  "affectedRows": 1,
-  "insertId": 5,
-  "info": "",
-  "serverStatus": 2,
-  "warningStatus": 0
-}
+const getProductByIdResponse = { "id": 1, "name": "Martelo de Thor" }
+
+const insertNewProductResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 4,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+]
 
 module.exports = {
-  allProducts,
+  getAllProductsResponse,
+  getProductByIdResponse,
+  insertNewProductResponse,
 }

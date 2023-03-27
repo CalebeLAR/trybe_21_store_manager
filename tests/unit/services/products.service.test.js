@@ -12,8 +12,8 @@ describe('testes unitários para a camada producs services.', async function () 
     sinon.restore();
   });
 
-  describe('testes da função que lista todos os produtos', function () {
-    it('a função requestAllProducts deve retornar uma lista de com todos produtos em caso de sucesso.', async function () {
+  describe('testes da função "requestAllProducts" que lista todos os produtos', function () {
+    it('a função deve retornar uma lista de com todos produtos em caso de sucesso.', async function () {
       // Arrange
       sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(mock.allProducts);
       // Act
@@ -25,8 +25,8 @@ describe('testes unitários para a camada producs services.', async function () 
     });
   });
 
-  describe('testes da função que lista apenas um produto', function () {
-    it('a função requestProductById deve retornar um produto em caso de sucesso.', async function () {
+  describe('testes da função requestProductById que lista apenas um produto', function () {
+    it('a função deve retornar apenas um produto em caso de sucesso.', async function () {
       // Arrange
       const validId = 3;
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(mock.allProducts);
@@ -40,7 +40,7 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.message).to.deep.equal(mock.allProducts);
     });
 
-    it('a função requestProductById deve retornar um error em caso de falha.', async function () {
+    it('a função deve retornar um objeto com as chaves type e message em caso de falha.', async function () {
       // Arrange
       const invalidId = 999;
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(undefined);
@@ -54,7 +54,7 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(productsModel.getProductByIdFromDatabase.calledWith(invalidId)).to.be.equal(true);
     });
 
-    it('a função requestProductById deve retornar um erro caso o ID nao seja um numero inteiro maior ou igual a 1.', async function () {
+    it('a função deve retornar um objeto com as chaves type e message, caso o ID nao seja um numero inteiro maior ou igual a 1.', async function () {
       // Arrange
       const errorGreater = '"value" must be greater than or equal to 1'
       const errorNumber = '"value" must be a number';

@@ -3,28 +3,19 @@
     "_id": "12318fa6-4bf3-4f41-ab16-91608c69fb73",
     "colId": "history",
     "containerId": "",
-    "name": "GET - /products",
+    "name": "EndPoint: products",
     "url": "http://localhost:3001/products/",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-03-22T19:16:55.539Z",
-    "modified": "2023-03-25T18:42:32.976Z",
+    "modified": "2023-03-27T14:23:28.847Z",
     "headers": [],
     "params": [],
-    "tests": []
-  },
-  {
-    "_id": "419b0432-5d17-4181-8fd7-26d9c1c6e113",
-    "colId": "history",
-    "containerId": "",
-    "name": "GET - /products/:id",
-    "url": "http://localhost:3001/products/t",
-    "method": "GET",
-    "sortNum": 0,
-    "created": "2023-03-22T19:49:33.577Z",
-    "modified": "2023-03-24T17:23:43.622Z",
-    "headers": [],
-    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\"name\": \"ProdutoX\"}",
+      "form": []
+    },
     "tests": []
   }
 ]
