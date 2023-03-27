@@ -1,24 +1,41 @@
 const { productsModel } = require('../models');
 
 const requestAllProducts = async () => {
-  const allProducts = await productsModel.getAllProductsFromDatabase();
+  try {
+    // chama a camada model
+    const allProducts = await productsModel.getAllProductsFromDatabase();
 
-  return { type: null, message: allProducts };
+    // response
+    return { type: null, message: allProducts };
+  } catch (dataBaseError) {
+    return { type: 'INTERNAL_ERROR', message: 'internal error' };
+  }
 };
 
 const requestProductById = async (productID) => {
-  const product = await productsModel.getProductByIdFromDatabase(productID);
-  if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+  try {
+    // chama a camada model
+    const product = await productsModel.getProductByIdFromDatabase(productID);
+    if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 
-  return { type: null, message: product };
+    // response
+    return { type: null, message: product };
+  } catch (dataBaseError) {
+    return { type: 'INTERNAL_ERROR', message: 'internal error' };
+  }
 };
 
 const requestAddNewProduct = async (newProduct) => {
-  const newProductID = await productsModel.insertNewProductInTheDatabase(newProduct);
+  try {
+    // chama a camada model
+    const newProductID = await productsModel.insertNewProductInTheDatabase(newProduct);
+    const newProductWithID = await productsModel.getProductByIdFromDatabase(newProductID);
 
-  const newProcustWithID = await productsModel.getProductByIdFromDatabase(newProductID);
-
-  return { type: null, message: newProcustWithID };
+    // response
+    return { type: null, message: newProductWithID };
+  } catch (dataBaseError) {
+    return { type: 'INTERNAL_ERROR', message: 'internal error' };
+  }
 };
 
 module.exports = {

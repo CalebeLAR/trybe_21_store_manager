@@ -12,8 +12,8 @@ describe('testes unitários para a camada producs services.', async function () 
     sinon.restore();
   });
 
-  describe('testes da função "requestAllProducts" que lista todos os produtos', function () {
-    it('a função deve retornar uma lista de com todos produtos em caso de sucesso.', async function () {
+  describe('testes da função "requestAllProducts" que pede uma lista com todos os produtos', function () {
+    it('deve retornar uma lista de com todos produtos em caso de sucesso.', async function () {
       // Arrange
       sinon.stub(productsModel, 'getAllProductsFromDatabase').resolves(mock.allProducts);
       // Act
@@ -23,10 +23,22 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.type).to.be.equal(null);
       expect(response.message).to.deep.equal(mock.allProducts);
     });
+
+    it('deve retornar uma mensagem de erro em caso de falha no acesso ao banco de dados.', async function () {
+      // Arrange
+      const internalError = { type: 'INTERNAL_ERROR', message: 'internal error' }
+      sinon.stub(connection, 'execute').returns(undefined);
+
+      // Act
+      const response = await productsService.requestAllProducts();
+
+      // Assert
+      expect(response).to.be.deep.equal(internalError);
+    });
   });
 
-  describe('testes da função requestProductById que lista apenas um produto', function () {
-    it('a função deve retornar apenas um produto em caso de sucesso.', async function () {
+  describe('testes da função "requestProductById" que pede por apenas um produto', function () {
+    it('deve retornar apenas um produto em caso de sucesso.', async function () {
       // Arrange
       const validId = 3;
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(mock.allProducts);
@@ -40,7 +52,7 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(response.message).to.deep.equal(mock.allProducts);
     });
 
-    it('a função deve retornar um objeto com as chaves type e message em caso de falha.', async function () {
+    it('deve retornar uma mensagem de erro em caso de rejeição.', async function () {
       // Arrange
       const invalidId = 999;
       sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves(undefined);
@@ -54,37 +66,49 @@ describe('testes unitários para a camada producs services.', async function () 
       expect(productsModel.getProductByIdFromDatabase.calledWith(invalidId)).to.be.equal(true);
     });
 
-    it('a função deve retornar um objeto com as chaves type e message, caso o ID nao seja um numero inteiro maior ou igual a 1.', async function () {
+    it('deve retornar uma mensagem de erro em caso de falha no acesso ao banco de dados.', async function () {
       // Arrange
-      const errorGreater = '"value" must be greater than or equal to 1'
-      const errorNumber = '"value" must be a number';
-      const errorInteger = '"value" must be an integer';
-      const typeError = 'INVALID_VALUE'
+      const internalError = { type: 'INTERNAL_ERROR', message: 'internal error' }
+      sinon.stub(connection, 'execute').returns(undefined);
 
-      sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves();
+      // Act
+      const response = await productsService.requestProductById(3);
 
-      //Act
-      const responseGreater = await productsService.requestProductById(0);
-      //Assert
-      expect(responseGreater.type).to.be.equal(typeError);
-      expect(responseGreater.message).to.be.equal(errorGreater);
-      expect(productsModel.getProductByIdFromDatabase.called).to.be.equal(false);
+      // Assert
+      expect(response).to.be.deep.equal(internalError);
+    });
+  });
 
+  describe('testes da função "requestAddNewProduct" que pede para adicionar um novo produto', function () {
+    it('em caso de sucesso a função deve adicionar no banco de dados um novo produto e retornar o mesmo.', async function () {
+      // Arrange
+      const newProductID = 4;
+      const newProduct = { name: 'newProduct' };
+      const newProductWithID = { id: 4, name: 'newProduct' };
+      
+      sinon.stub(productsModel, 'insertNewProductInTheDatabase').resolves(newProductID);
+      sinon.stub(productsModel, 'getProductByIdFromDatabase').resolves({ id: newProductID, ...newProduct });
+      // Act
+      const response = await productsService.requestAddNewProduct(newProduct);
 
-      //Act
-      const responseNumber = await productsService.requestProductById('g');
-      //Assert
-      expect(responseNumber.type).to.be.equal(typeError);
-      expect(responseNumber.message).to.be.equal(errorNumber);
-      expect(productsModel.getProductByIdFromDatabase.called).to.be.equal(false);
+      // Asserts
+      expect(productsModel.insertNewProductInTheDatabase).to.have.been.calledWith(newProduct);
+      expect(productsModel.getProductByIdFromDatabase).to.have.been.calledWith(4);
+      
+      expect(response).to.be.deep.equal({ type: null, message: newProductWithID });
+    });
+    it('deve retornar uma mensagem de erro em caso de falha no acesso ao banco de dados.', async function () {
+      // Arrange
+      const newProduct = {name: 'newProduct'}
+      const internalError = { type: 'INTERNAL_ERROR', message: 'internal error' }
 
+      sinon.stub(connection, 'execute').returns(undefined);
 
-      //Act
-      const responseInteger = await productsService.requestProductById(0.9);
-      //Assert
-      expect(responseInteger.type).to.be.equal(typeError);
-      expect(responseInteger.message).to.be.equal(errorInteger);
-      expect(productsModel.getProductByIdFromDatabase.called).to.be.equal(false);
+      // Act
+      const response = await productsService.requestAddNewProduct(newProduct);
+
+      // Assert
+      expect(response).to.be.deep.equal(internalError);
     });
   });
 });
