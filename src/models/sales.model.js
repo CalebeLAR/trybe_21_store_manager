@@ -1,28 +1,55 @@
 const camelize = require('camelize');
-// const snakeize = require('snakeize');
+const snakeize = require('snakeize');
 const connection = require('./connection');
 
-const getSaleByIdFromDatabase = async (saleID) => {
+const getAllSalesFromDatabase = async () => {
+  const [allSales] = await connection.execute(
+    'SELECT * FROM StoreManager.sales ORDER BY id ASC;',
+  );
+  return camelize(allSales);
+};
+
+const getSaleProductByIdFromDatabase = async (saleProductID) => {
   const [[sale]] = await connection.execute(
-    'SELECT * FROM StoreManager.sales WHERE id = ?',
-    [saleID],
+    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    [saleProductID],
   );
 
   return camelize(sale);
 };
 
-const insertNewSaleInTheDatabase = (_dataTime) => {
-  // colocar um novo id em sale;
-  // pegar um id de sales
+const insertNewSaleInTheDatabase = async (saleID) => {
+  const columns = Object.keys(snakeize(saleID)).join(', ');
+
+  const placeholders = Object.keys(saleID)
+    .map((_key) => '?')
+    .join(', ');
+
+  const [{ insertId }] = await connection.execute(
+    `INSERT INTO StoreManager.sales (${columns}) VALUE (${placeholders})`,
+    [...Object.values(saleID)],
+  );
+  console.log(insertId);
+  return insertId;
 };
 
-const insertNewSaleProductInTheDatabase = (_saleID, _productID) => {
-  // colocar um novo id em sale;
-  // pegar um id de sales
+const insertNewSaleProductInTheDatabase = async (salePeoduct) => {
+  const columns = Object.keys(snakeize(salePeoduct)).join(', ');
+
+  const placeholders = Object.keys(salePeoduct)
+    .map((_key) => '?')
+    .join(', ');
+
+  const [{ insertId }] = await connection.execute(
+    `INSERT INTO StoreManager.sales_products (${columns}) VALUE (${placeholders})`,
+    [...Object.values(salePeoduct)],
+  );
+  return insertId;
 };
 
 module.exports = {
+  getAllSalesFromDatabase,
+  getSaleProductByIdFromDatabase,
   insertNewSaleInTheDatabase,
-  getSaleByIdFromDatabase,
   insertNewSaleProductInTheDatabase,
 };

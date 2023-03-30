@@ -29,10 +29,10 @@ const requestAddNewProduct = async (newProduct) => {
   try {
     // chama a camada model
     const newProductID = await productsModel.insertNewProductInTheDatabase(newProduct);
-    const newProductWithID = await productsModel.getProductByIdFromDatabase(newProductID);
+    const newProductAdded = await productsModel.getProductByIdFromDatabase(newProductID);
 
     // response
-    return { type: null, message: newProductWithID };
+    return { type: null, message: newProductAdded };
   } catch (dataBaseError) {
     return { type: 'INTERNAL_ERROR', message: 'internal error' };
   }
