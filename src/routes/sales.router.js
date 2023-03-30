@@ -1,6 +1,7 @@
 const express = require('express');
 const { salesService } = require('../services');
 const { validateSaleProduct } = require('../controllers/validations/saleProductsValidation');
+const { mapError } = require('../utils/errorMap');
 
 const salesRouter = express.Router();
 
@@ -10,13 +11,13 @@ salesRouter.post('/', async (req, res) => {
 
   // validation params
   const error = validateSaleProduct(saleProducts);
-  if (error) return res.status(200).json(error.message);
+  if (error) return res.status(mapError(error.type)).json({message: error.message});
 
   // service
-  const { message } = await salesService.askToAddnewSaleProduct(saleProducts);
+  const {type, message } = await salesService.askToAddnewSaleProduct(saleProducts);
+  if (type) return res.status(mapError(type)).json({message});
 
-  // response
-  res.status(200).json(message);
+  return res.status(201).json(message)
 });
 
 module.exports = salesRouter;
