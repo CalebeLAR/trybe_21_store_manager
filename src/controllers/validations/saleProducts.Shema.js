@@ -8,6 +8,10 @@ const saleProductShema = Joi.array().items(
   }),
 );
 
+// valida o ID da saleProducts que vem por parâmetro
+const saleProductIdShema = Joi.number().integer().min(1).required();
+
 module.exports = {
   saleProductShema,
+  saleProductIdShema,
 };
