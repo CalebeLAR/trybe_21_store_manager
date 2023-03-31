@@ -31,9 +31,19 @@ const insertNewProductInTheDatabase = async (newProduct) => {
   );
   return insertId;
 };
-  
-  module.exports = {
-    getAllProductsFromDatabase,
-    getProductByIdFromDatabase,
-    insertNewProductInTheDatabase,
-  };
+
+const reeditProductInTheDatabase = async (newProduct) => {
+  const [{ affectedRows }] = await connection.execute(
+    'UPDATE StoreManager.products SET name = ? WHERE id = ?;',
+    [newProduct.name, newProduct.productId],
+    );
+  console.log(affectedRows);
+  return camelize(affectedRows);
+};
+
+module.exports = {
+  getAllProductsFromDatabase,
+  getProductByIdFromDatabase,
+  insertNewProductInTheDatabase,
+  reeditProductInTheDatabase,
+};

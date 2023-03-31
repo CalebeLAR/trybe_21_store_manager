@@ -39,8 +39,29 @@ const addNewProduct = async (req, res) => {
   return res.status(201).json(message);
 };
 
+const reeditProductById = async (req, res) => {
+  const productId = Number(req.params.id);
+  const body = { ...req.body };
+
+  // validation params
+  const IdError = valideteProductId(productId);
+  if (IdError) return res.status(mapError(IdError.type)).json({ message: IdError.message });
+
+  const bodyError = validateNewProduct(body);
+  if (bodyError) return res.status(mapError(bodyError.type)).json({ message: bodyError.message });
+
+  // call services
+  const newProduct = { productId, name: body.name };
+
+  const { type, message } = await productsService.requestReeditProductById(newProduct);
+  if (type) return res.status(mapError(type)).json({ message }); 
+
+  res.status(200).json(message);
+};
+
 module.exports = {
   listAllProducts,
   findProduct,
   addNewProduct,
+  reeditProductById,
 };

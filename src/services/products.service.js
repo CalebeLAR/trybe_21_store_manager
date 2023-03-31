@@ -38,8 +38,23 @@ const requestAddNewProduct = async (newProduct) => {
   }
 };
 
+const requestReeditProductById = async (newProduct) => {
+  try {
+    // call model pra editar produto
+    const affectedRows = await productsModel.reeditProductInTheDatabase(newProduct);
+    if (!affectedRows) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+    
+    const uppdatedProduct = await productsModel.getProductByIdFromDatabase(newProduct.productId);
+
+    return { type: null, message: uppdatedProduct };
+  } catch (dataBaseError) {
+    return { type: 'INTERNAL_ERROR', message: dataBaseError.message };
+  }
+};
+
 module.exports = {
   requestAllProducts,
   requestProductById,
   requestAddNewProduct,
+  requestReeditProductById,
 };
