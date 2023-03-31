@@ -1,4 +1,4 @@
-const {salesService} = require('../services');
+const { salesService } = require('../services');
 const { validateSaleProduct, validateSaleProductID } = require('../controllers/validations/saleProductsValidation');
 const { mapError } = require('../utils/errorMap');
 
@@ -11,7 +11,7 @@ const addNewSaleProduct = async (req, res) => {
   if (error) return res.status(mapError(error.type)).json({ message: error.message });
 
   // service
-  const { type, message } = await salesService.askToAddnewSaleProduct(saleProducts);
+  const { type, message } = await salesService.requestAddNewSale(saleProducts);
   if (type) return res.status(mapError(type)).json({ message });
 
   return res.status(201).json(message);
@@ -19,6 +19,10 @@ const addNewSaleProduct = async (req, res) => {
 
 const listAllSaleProducts = async (req, res) => {
   // chama service
+  const { message } = await salesService.requestAllsales();
+
+  // response
+  return res.status(200).json(message);
 
   // response
   res.status(200).json({message: '/sale: ALL PRODUCTS'})
@@ -31,9 +35,12 @@ const findSaleProducts = async (req, res) => {
   const error = validateSaleProductID(id);
   if (error) return res.status(mapError(error.type)).json({ message: error.message });
 
-  // chama service 
+  // call services
+  const { type, message } = await salesService.requestSaleById(id);
+  if (type) return res.status(mapError(type)).json({ message });
+
   // response
-  res.status(200).json({ message: `/sale/:id ${id}` });
+  res.status(200).json(message);
 };
 
 module.exports = {

@@ -1,4 +1,4 @@
-const saleServicesUtils = require('./askToAddnewSaleProduct.utils');
+const saleServicesUtils = require('./requestAddNewSale');
 
 module.exports = {
   saleServicesUtils,
