@@ -18,7 +18,7 @@ const validateSaleProductID = (saleProductID) => {
   const { error } = saleProductIdShema.validate(saleProductID);
 
   if (error) {
-    return { type: 'INVALID_VALUE', message: error.message};
+    return { type: 'INVALID_VALUE', message: error.message };
   }
 
   return error;

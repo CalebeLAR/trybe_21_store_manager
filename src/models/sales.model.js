@@ -9,9 +9,23 @@ const getAllSalesFromDatabase = async () => {
   return camelize(allSales);
 };
 
+const getAllSaleProductFromDatabase = async () => {
+  const [allSales] = await connection.execute(
+    `SELECT sp.sale_id, sa.date, sp.product_id, sp.quantity 
+      FROM StoreManager.sales AS sa
+      INNER JOIN StoreManager.sales_products AS sp
+      ON sa.id = sp.sale_id;`,
+  );
+  return camelize(allSales);
+};
+
 const getSaleProductByIdFromDatabase = async (saleProductID) => {
   const [sale] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    `SELECT sa.date, sp.product_id, sp.quantity 
+      FROM StoreManager.sales AS sa
+      INNER JOIN StoreManager.sales_products AS sp
+      ON sa.id = sp.sale_id
+      WHERE sp.sale_id = ?;`,
     [saleProductID],
   );
 
@@ -58,6 +72,7 @@ const insertNewSaleProductInTheDatabase = async (salePeoduct) => {
 module.exports = {
   getAllSalesFromDatabase,
   getSaleByIdFromDatabase,
+  getAllSaleProductFromDatabase,
   getSaleProductByIdFromDatabase,
   insertNewSaleInTheDatabase,
   insertNewSaleProductInTheDatabase,

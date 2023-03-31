@@ -1,7 +1,7 @@
 const { salesService } = require('../services');
-const { validateSaleProduct, validateSaleProductID } = require('../controllers/validations/saleProductsValidation');
+const {
+  validateSaleProduct, validateSaleProductID } = require('./validations/saleProductsValidation');
 const { mapError } = require('../utils/errorMap');
-
 
 const addNewSaleProduct = async (req, res) => {
   const saleProducts = req.body;
@@ -19,13 +19,10 @@ const addNewSaleProduct = async (req, res) => {
 
 const listAllSaleProducts = async (req, res) => {
   // chama service
-  const { message } = await salesService.requestAllsales();
+  const { message } = await salesService.requestAllsalesProducts();
 
   // response
   return res.status(200).json(message);
-
-  // response
-  res.status(200).json({message: '/sale: ALL PRODUCTS'})
 };
 
 const findSaleProducts = async (req, res) => {

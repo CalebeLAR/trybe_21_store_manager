@@ -9,5 +9,4 @@ salesRouter.get('/:id', salesController.findSaleProducts);
 
 salesRouter.post('/', salesController.addNewSaleProduct);
 
-
 module.exports = salesRouter;
