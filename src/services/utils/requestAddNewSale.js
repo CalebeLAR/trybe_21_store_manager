@@ -9,7 +9,6 @@ const validAllSaleProductsExists = async (arrSales) => {
     const resolved = await Promise.allSettled(arrProductsID);
     const thereIsAError = resolved.some((d) => d.value === undefined);
     return thereIsAError;
-
   } catch (dataBaseError) {
     return { type: 'INTERNAL_ERROR', message: 'erro interno' };
   }
@@ -30,13 +29,12 @@ const insertNewSaleProcess = async (arrSales) => {
 
     const { id } = await salesModel.getSaleByIdFromDatabase(newSaleProductId);
     return id;
-
   } catch (dataBaseError) {
     return { type: 'INTERNAL_ERROR', message: 'erro interno' };
   }
-}
+};
 
 module.exports = {
   validAllSaleProductsExists,
   insertNewSaleProcess,
-}
+};

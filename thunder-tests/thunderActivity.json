@@ -23,16 +23,16 @@
     "colId": "history",
     "containerId": "",
     "name": "sales",
-    "url": "http://localhost:3001/sales/",
+    "url": "http://localhost:3001/sales",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-03-27T20:06:57.534Z",
-    "modified": "2023-03-31T18:41:08.117Z",
+    "modified": "2023-03-31T22:02:54.808Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"productId\": 3,\n    \"quantity\": 3\n  },\n  {\n    \"productId\": \"3\",\n    \"quantity\": 3\n  },\n  {\n    \"productId\": 3,\n    \"quantity\": 3\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 2,\n    \"quantity\": 2\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 2\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 2\n  }\n]",
       "form": []
     },
     "tests": []
