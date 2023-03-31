@@ -59,9 +59,24 @@ const reeditProductById = async (req, res) => {
   res.status(200).json(message);
 };
 
+const deleteProdutctById = async (req, res) => {
+  const productId = Number(req.params.id);
+
+  // validation params
+  const IdError = valideteProductId(productId);
+  if (IdError) return res.status(mapError(IdError.type)).json({ message: IdError.message });
+
+  // call services
+  const { type, message } = await productsService.requestDeleteProductById(productId);
+  if (type) return res.status(mapError(type)).json({ message });
+
+  return res.status(204).json();
+};
+
 module.exports = {
   listAllProducts,
   findProduct,
   addNewProduct,
   reeditProductById,
+  deleteProdutctById,
 };

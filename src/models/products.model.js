@@ -37,7 +37,14 @@ const reeditProductInTheDatabase = async (newProduct) => {
     'UPDATE StoreManager.products SET name = ? WHERE id = ?;',
     [newProduct.name, newProduct.productId],
     );
-  console.log(affectedRows);
+  return camelize(affectedRows);
+};
+
+const deleteProdutcByIdFromDatabase = async (productId) => {
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM StoreManager.products WHERE id = ?;',
+    [productId],
+  );
   return camelize(affectedRows);
 };
 
@@ -46,4 +53,5 @@ module.exports = {
   getProductByIdFromDatabase,
   insertNewProductInTheDatabase,
   reeditProductInTheDatabase,
+  deleteProdutcByIdFromDatabase,
 };

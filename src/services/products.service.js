@@ -52,9 +52,22 @@ const requestReeditProductById = async (newProduct) => {
   }
 };
 
+const requestDeleteProductById = async (productId) => {
+  try {
+    // call model pra editar produto
+    const affectedRows = await productsModel.deleteProdutcByIdFromDatabase(productId);
+    if (!affectedRows) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+    return { type: null, message: affectedRows };
+  } catch (dataBaseError) {
+    return { type: 'INTERNAL_ERROR', message: dataBaseError.message };
+  }
+};
+
 module.exports = {
   requestAllProducts,
   requestProductById,
   requestAddNewProduct,
   requestReeditProductById,
+  requestDeleteProductById,
 };
